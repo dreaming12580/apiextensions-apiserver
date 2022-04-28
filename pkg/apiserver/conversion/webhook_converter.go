@@ -318,6 +318,9 @@ func (c *webhookConverter) Convert(in runtime.Object, toGV schema.GroupVersion) 
 			if err := validateConvertedObject(original, unstructConverted); err != nil {
 				return nil, fmt.Errorf("conversion webhook for %v returned invalid converted object at index %v: %v", in.GetObjectKind().GroupVersionKind(), convertedIndex, err)
 			}
+
+			fmt.Errorf("====1 original:%T, original:%#v", original, original)
+
 			if err := restoreObjectMeta(original, unstructConverted); err != nil {
 				return nil, fmt.Errorf("conversion webhook for %v returned invalid metadata in object at index %v: %v", in.GetObjectKind().GroupVersionKind(), convertedIndex, err)
 			}
@@ -351,6 +354,9 @@ func (c *webhookConverter) Convert(in runtime.Object, toGV schema.GroupVersion) 
 		// this should not happened
 		return nil, fmt.Errorf("conversion webhook for %v failed unexpected input type %T", in.GetObjectKind().GroupVersionKind(), in)
 	}
+
+	fmt.Errorf("====2 unstructIn:%T, unstructIn:%#v", unstructIn, unstructIn)
+
 	if err := validateConvertedObject(unstructIn, unstructConverted); err != nil {
 		return nil, fmt.Errorf("conversion webhook for %v returned invalid object: %v", in.GetObjectKind().GroupVersionKind(), err)
 	}
